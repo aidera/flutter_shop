@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
 
+
+// Provider сделан из модели. В данном примере будет демонстрироваться подключение
+// провайдера к списку, у каждого элемента которого будет свой экземляр провайдера.
+// Конечно, в реальной жизни такое лучше не делать. Но как вариант.
 class Product with ChangeNotifier {
   final String id;
   final String title;
