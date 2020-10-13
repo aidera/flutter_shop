@@ -16,8 +16,28 @@ class CartItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       key: ValueKey(id),
-      direction: DismissDirection.endToStart, // Необязательно, но если надо только в 1 сторону
-      onDismissed: (direction) { // да, функция принимает сторону, в которую свайпали
+      direction: DismissDirection.endToStart,
+      // Необязательно, но если надо только в 1 сторону
+      confirmDismiss: (direction) {
+        // да, функция принимает сторону, в которую свайпали
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to remove the item from the card?'),
+            actions: [
+              FlatButton(onPressed: () {
+                Navigator.of(ctx).pop(false); // закроет диалоговое окно с confirm=false
+                }, child: Text('No'),),
+              FlatButton(onPressed: () {
+                Navigator.of(ctx).pop(false); // закроет диалоговое окно с confirm=true
+              }, child: Text('Yes'),),
+            ],
+          ),
+        );
+      },
+      onDismissed: (direction) {
+        // да, функция принимает сторону, в которую свайпали
         Provider.of<Cart>(context, listen: false).removeItem(productId);
       },
       background: Container(

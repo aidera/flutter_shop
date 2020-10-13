@@ -51,6 +51,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ),
           ),
           Consumer<Cart>(
+            // Здесь вместо Provide.of используется консьюмер.
+            // Для того чтобы не перерендеривать весь build метод, а только часть,
+            // обернутую в консьюмер
             builder: (_, cart, child) => Badge(
               child: child,
               value: cart.itemCount.toString(),
