@@ -34,7 +34,7 @@ class ProductItem extends StatelessWidget {
             // место с иконкой, которое меняется по клику
             builder: (ctx, product, child) => IconButton(
               icon: Icon(
-                product.isFavourite ? Icons.favorite : Icons.favorite_border,
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
               color: Theme.of(context).accentColor,
               onPressed: () {

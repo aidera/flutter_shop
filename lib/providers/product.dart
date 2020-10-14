@@ -1,5 +1,7 @@
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 // Provider сделан из модели. В данном примере будет демонстрироваться подключение
 // провайдера к списку, у каждого элемента которого будет свой экземляр провайдера.
@@ -10,7 +12,7 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String imageUrl;
-  bool isFavourite;
+  bool isFavorite;
 
   Product({
     @required this.id,
@@ -18,11 +20,21 @@ class Product with ChangeNotifier {
     @required this.description,
     @required this.price,
     @required this.imageUrl,
-    this.isFavourite = false,
+    this.isFavorite = false,
   });
 
-  void toggleFavoriteStatus() {
-    isFavourite = !isFavourite;
+  Future<void> toggleFavoriteStatus() async {
+    final oldStatus = isFavorite;
+    isFavorite = !isFavorite;
     notifyListeners();
+
+    try {
+      final url = 'https://learning-473b5.firebaseio.com/products/$id.json';
+      await http.patch(url, body: json.encode({'isFavorite': isFavorite}));
+    } catch (error) {
+      isFavorite = oldStatus;
+      notifyListeners();
+    }
+
   }
 }
